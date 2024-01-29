@@ -26,31 +26,33 @@ print(f'Welcome to {app_logo} v1')
 print(f'{getpass.getuser().upper()}({platform.system()}{platform.version()}) :: {dt.datetime.now().replace(microsecond=0)}')
 
 target_url = input('Entre a youtube URL: ')
-ytv = pt.YouTube(target_url)  # use_oauth=True, allow_oauth_cache=False
-download_folder()
-print(f'{tm.colored('│ Title      : ',  'cyan')} {ytv.title}')
-print(tm.colored('├──────────', 'cyan'))
-print(f'{tm.colored('│ Author     : ', 'cyan')} {ytv.author}')
-print(tm.colored('├──────────', 'cyan'))
-print(f'{tm.colored('│ Duration   : ', 'cyan')} {str(dt.timedelta(seconds=ytv.length))}')
-print(tm.colored('├──────────', 'cyan'))
-print(f'{tm.colored('│ Views      : ', 'cyan')} {ytv.views}\n')
-print('\nProcessing...')
-streams = ytv.streams.filter(adaptive=True, file_extension='mp4')
-print(f"Resolutions available : ", end=" ")
-res_list = []
-index = 0
-for stream in streams:
-    if stream.resolution:
-        resolution = tm.colored('['+stream.resolution+']', 'magenta')
-        print(resolution, end=" ")
-        res_list.append(stream.resolution)
-selected_rs = input(f'\nSelect the resolution you want : ')
-selected_rs_res = True
-while selected_rs_res:
-    if selected_rs in res_list:
-        stream = ytv.streams.filter(adaptive=True, res=selected_rs).first()
-        stream.download(output_path=path, filename_prefix=selected_rs+' - ')
-        selected_rs_res = False
-    else:
-        selected_rs = input('Unavailable resolution. Try again: ')
+parsed_url = urlparse(target_url.strip())
+if parsed_url.netloc == 'www.youtube.com':
+    ytv = pt.YouTube(target_url)  # use_oauth=True, allow_oauth_cache=False
+    download_folder()
+    print(f'{tm.colored('│ Title      : ',  'cyan')} {ytv.title}')
+    print(tm.colored('├──────────', 'cyan'))
+    print(f'{tm.colored('│ Author     : ', 'cyan')} {ytv.author}')
+    print(tm.colored('├──────────', 'cyan'))
+    print(f'{tm.colored('│ Duration   : ', 'cyan')} {str(dt.timedelta(seconds=ytv.length))}')
+    print(tm.colored('├──────────', 'cyan'))
+    print(f'{tm.colored('│ Views      : ', 'cyan')} {ytv.views}\n')
+    print('\nProcessing...')
+    streams = ytv.streams.filter(adaptive=True, file_extension='mp4')
+    print(f"Resolutions available : ", end=" ")
+    res_list = []
+    index = 0
+    for stream in streams:
+        if stream.resolution:
+            resolution = tm.colored('['+stream.resolution+']', 'magenta')
+            print(resolution, end=" ")
+            res_list.append(stream.resolution)
+    selected_rs = input(f'\nSelect the resolution you want : ')
+    selected_rs_res = True
+    while selected_rs_res:
+        if selected_rs in res_list:
+            stream = ytv.streams.filter(adaptive=True, res=selected_rs).first()
+            stream.download(output_path=path, filename_prefix=selected_rs+' - ')
+            selected_rs_res = False
+        else:
+            selected_rs = input('Unavailable resolution. Try again: ')
