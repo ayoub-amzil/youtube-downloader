@@ -20,3 +20,7 @@ def download_folder():
     else:
         os.mkdir(path)
         print(f'A folder [{tm.colored(app_name, "yellow")}] was created in your desktop.\n')
+
+
+print(f'Welcome to {app_logo} v1')
+print(f'{getpass.getuser().upper()}({platform.system()}{platform.version()}) :: {dt.datetime.now().replace(microsecond=0)}')
