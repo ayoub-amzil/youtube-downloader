@@ -11,3 +11,12 @@ app_logo = tm.colored(' ► ', 'white', 'on_red')+tm.colored(app_name, 'red', 'o
 path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')+'\\'+app_name
 valid = tm.colored(' ✔ ', 'white', 'on_green')
 not_valid = tm.colored(' ✘ ', 'white', 'on_red')
+
+
+# Creating a folder to hold the downloader videos (windows)
+def download_folder():
+    if os.path.exists(path):
+        print(f'Folder [{tm.colored(app_name, "yellow")}] already exist in your desktop. It will be used to save your youtube video.\n')
+    else:
+        os.mkdir(path)
+        print(f'A folder [{tm.colored(app_name, "yellow")}] was created in your desktop.\n')
