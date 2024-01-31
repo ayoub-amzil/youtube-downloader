@@ -28,12 +28,12 @@ while start == 1:
     target_url = input('Entre a youtube URL: ')
     parsed_url = urlparse(target_url.strip())
     if parsed_url.netloc != 'www.youtube.com':  # check the component(netloc)
-        print(f'Invalid youtube URL {not_valid}')
+        print(f'Youtube URL check: {not_valid}\nPlease entre a valid youtube URL.')
         continue
     else:
-        print(f'A valid youtube URL {valid}')
-        ytv = pt.YouTube(target_url)  # use_oauth=True, allow_oauth_cache=False
+        print(f'Youtube URL check: {valid}')
         download_folder()
+        ytv = pt.YouTube(target_url)  # use_oauth=True, allow_oauth_cache=False
         print(f'{tm.colored('│ Title      : ',  'cyan')} {ytv.title}')
         print(tm.colored('├──────────', 'cyan'))
         print(f'{tm.colored('│ Author     : ', 'cyan')} {ytv.author}')
