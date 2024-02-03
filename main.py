@@ -14,7 +14,7 @@ not_valid = tm.colored(' ✘ ', 'white', 'on_red')
 
 def download_folder():
     if os.path.exists(path):
-        print(f'Folder [{tm.colored(app_name, "yellow")}] already exist in your desktop. It will be used to save your youtube video.\n')
+        print(f'Folder [{tm.colored(app_name, "yellow")}] already exist in your desktop. (It will be used to save your Youtube videos)\n')
     else:
         os.mkdir(path)
         print(f'A folder [{tm.colored(app_name, "yellow")}] was created in your desktop.\n')
@@ -42,7 +42,7 @@ while start == 1:
         print(tm.colored('├──────────', 'cyan'))
         print(f'{tm.colored('│ Views      : ', 'cyan')} {ytv.views}\n')
         print('\nProcessing...')
-        streams = ytv.streams.filter(adaptive=True, file_extension='mp4')
+        streams = ytv.streams.filter(progressive=True, file_extension='mp4')
         print(f"Resolutions available : ", end=" ")
         res_list = []
         index = 0
@@ -51,21 +51,28 @@ while start == 1:
                 resolution = tm.colored('['+stream.resolution+']', 'magenta')
                 print(resolution, end=" ")
                 res_list.append(stream.resolution)
-        selected_rs = input(f'\nSelect the resolution you want : ')
+        selected_rs = input(f'\nSelect the resolution you want, Or entre [{tm.colored('x', 'red')}] to exit. : ')
+        if selected_rs.strip() == 'x':
+            print(f'Thank you for using this app.')
+            quit()
         selected_rs_res = True
         while selected_rs_res:
             if selected_rs in res_list:
-                stream = ytv.streams.filter(adaptive=True, res=selected_rs).first()
+                stream = ytv.streams.filter(progressive=True, res=selected_rs).first()
+                print('\nProcessing...')
                 stream.download(output_path=path, filename_prefix=selected_rs+' - ')
+                print(f'\n{tm.colored('Download completed.', 'green')}\n')
                 selected_rs_res = False
             else:
                 selected_rs = input('Unavailable resolution. Try again: ')
-    req = input('Do you want to download another video[y/n]?: ')
+    req = input('Do you want to download another video [y/n]?: ')
+    if req.strip() == 'n':
+        print(f'Thank you for using this app.')
+        start = 0
     while req.strip() != 'n' and req.strip() != 'y':
-        print('Error')
+        print('Please, select [y] if you want to download another video, or [n] to exit.')
         req = input('[y/n]?: ')
-    else:
-        if req.split() == ['n']:
+        if req.strip() == 'n':
             print(f'Thank you for using this app')
             start = 0
         else:
