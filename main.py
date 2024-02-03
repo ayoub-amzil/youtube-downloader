@@ -14,7 +14,7 @@ not_valid = tm.colored(' ✘ ', 'white', 'on_red')
 
 def download_folder():
     if os.path.exists(path):
-        print(f'Folder [{tm.colored(app_name, "yellow")}] already exist in your desktop. (It will be used to save your Youtube video)\n')
+        print(f'Folder [{tm.colored(app_name, "yellow")}] already exist in your desktop. (It will be used to save your Youtube videos)\n')
     else:
         os.mkdir(path)
         print(f'A folder [{tm.colored(app_name, "yellow")}] was created in your desktop.\n')
@@ -42,7 +42,7 @@ while start == 1:
         print(tm.colored('├──────────', 'cyan'))
         print(f'{tm.colored('│ Views      : ', 'cyan')} {ytv.views}\n')
         print('\nProcessing...')
-        streams = ytv.streams.filter(adaptive=True, file_extension='mp4')
+        streams = ytv.streams.filter(progressive=True, file_extension='mp4')
         print(f"Resolutions available : ", end=" ")
         res_list = []
         index = 0
@@ -58,7 +58,7 @@ while start == 1:
         selected_rs_res = True
         while selected_rs_res:
             if selected_rs in res_list:
-                stream = ytv.streams.filter(adaptive=True, res=selected_rs).first()
+                stream = ytv.streams.filter(progressive=True, res=selected_rs).first()
                 print('\nProcessing...')
                 stream.download(output_path=path, filename_prefix=selected_rs+' - ')
                 print(f'\n{tm.colored('Download completed.', 'green')}\n')
